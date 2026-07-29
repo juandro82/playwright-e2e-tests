@@ -12,4 +12,5 @@ for (let i = 10; i >= 1; i--) {
 }
 
 //Use case 3: unary plus
-console.log("3" + 3);
+console.log("3" + 3); // Output: 33
+console.log(+"3" + 3); // Output: 6

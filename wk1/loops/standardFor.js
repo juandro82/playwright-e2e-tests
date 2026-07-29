@@ -11,11 +11,14 @@ let sum = 0
 for (let i = 0; i < arr.length; i++) {
     console.log(arr[i]);
     let arrElem = arr[i] // This how to Declare inside the loop
-    if (typeof arrElem === "number") {
-        //sum = sum + arrElem // Suma los valores numero
-        sum += arrElem 
-        // Esta es la forma mas simple de la expresion anterior
+    // if (typeof arrElem === "number") {
+    //     //sum = sum + arrElem // Suma los valores numero
+    //     sum += arrElem 
+    //     // Esta es la forma mas simple de la expresion anterior
 
-    }
+    // }
+
+    if (typeof arrElem !== "number") continue;
+    sum += arrElem;
 }
-console.log(`>>> The value of sum is: ${sum}`);
+console.log(`>>> The value of sum is: ${sum}`); // Output: 60

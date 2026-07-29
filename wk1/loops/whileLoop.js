@@ -10,7 +10,7 @@ let isDataReturned = false;
 // }
 
 while (isDataReturned === false && count <= 10) {
-    console.log(count);
+    console.log(count); // Output: 1, 2, 3, 4, 5, 6, 7, 8, 9, 10
     // if (count == 5) {
     //     // we got an api response
     //     isDataReturned = true;// break the loop when count is 5

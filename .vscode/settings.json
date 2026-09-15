@@ -1,0 +1,10 @@
+{
+    "yaml-plus-json": {
+        "convertOnRename": true,
+        "yamlIndent": 2,
+        "fileExtensions": {
+            "yaml": ".yaml",
+            "json": ".json"
+        }
+    }
+}

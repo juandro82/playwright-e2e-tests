@@ -1,0 +1,67 @@
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const test_1 = require("@playwright/test");
+const file_helper_js_1 = __importDefault(require("../helpers/file-helper.js"));
+//const makeApptTestData = TestData.makeAppointmentTestData(); // Returns 3 objects of data
+//const makeApptTestData = TestData.makeAppointmentTestData(); // Returns 3 objects of data
+const csvFilePath = `${process.cwd()}/data/functional/make-aptmnt-test-data.csv`;
+const makeApptTestData = file_helper_js_1.default.readCSV(csvFilePath);
+// Access the data
+for (const appData of makeApptTestData) {
+    test_1.test.describe("Make appointmenmt", () => {
+        test_1.test.beforeEach("Login with valid creds", async ({ page }) => {
+            // 1. Launch URL and assert title and header
+            await page.goto("https://katalon-demo-cura.herokuapp.com/");
+            await (0, test_1.expect)(page).toHaveTitle("CURA Healthcare Service");
+            await (0, test_1.expect)(page.locator("//h1")).toHaveText("CURA Healthcare Service");
+            // 2. Click on the Make Appointment
+            await page.getByRole("link", { name: "Make Appointment" }).click();
+            await (0, test_1.expect)(page.getByText("Please login to make")).toBeVisible();
+            // Successful login
+            await page.getByLabel("Username").fill("John Doe");
+            await page.getByLabel("Password").fill("ThisIsNotAPassword");
+            await page.getByRole("button", { name: "Login" }).click();
+            // Get login cookies
+            const loginCookies = await page.context().cookies();
+            process.env.LOGIN_COOKIES = JSON.stringify(loginCookies);
+        });
+        //Test goes here
+        (0, test_1.test)(`${appData.testId}: Should make an appointment with non-default values`, async ({ page, }, testInfo) => {
+            //console.log(`>> Current config \n: ${JSON.stringify(testInfo.config)} `);
+            //Access the login cookies
+            console.log(`>> Login cookies: ${process.env.LOGIN_COOKIES}`);
+            //Dropdown
+            await page.getByLabel("Facility").selectOption(appData.facility);
+            //Checkbox
+            await page
+                .getByRole("checkbox", { name: "Apply for hospital readmission" })
+                .check();
+            // Radio Button
+            await page.getByRole("radio", { name: appData.hcp }).check();
+            //Date input box
+            await page
+                .getByRole("textbox", { name: "Visit Date (Required)" })
+                .click();
+            await page
+                .getByRole("textbox", { name: "Visit Date (Required)" })
+                .fill(appData.visitDt);
+            await page
+                .getByRole("textbox", { name: "Visit Date (Required)" })
+                .press("Enter");
+            //Multi-Line comments input box
+            await page.getByRole("textbox", { name: "Comment" }).click();
+            await page
+                .getByRole("textbox", { name: "Comment" })
+                .fill("This is a multi-line comments\ncaptured by playwright codgen");
+            //Button
+            await page.getByRole("button", { name: "Book Appointment" }).click();
+            //Assertion
+            await (0, test_1.expect)(page.locator("h2")).toContainText("Appointment Confirmation");
+            await (0, test_1.expect)(page.getByRole("link", { name: "Go to Homepage" })).toBeVisible();
+        });
+        //More tests go here...
+    });
+}

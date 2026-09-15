@@ -1,0 +1,58 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const test_1 = require("@playwright/test");
+/**
+ * Scenario:
+ * 1. Login as standard user
+ * 2. Get a list of products with its price
+ * 3. Assert that all products have non-zero dollar value
+ */
+test_1.test.describe("Inventory feature", () => {
+    test_1.test.beforeEach("Login with valid creds", async ({ page }) => {
+        //Launch the URL
+        await page.goto("https://www.saucedemo.com/");
+        //Login
+        await page.locator('[data-test="username"]').fill("standard_user");
+        await page.locator('[data-test="password"]').fill("secret_sauce");
+        await page.locator('[data-test="login-button"]').click();
+        //Assertion
+        await (0, test_1.expect)(page).toHaveURL("https://www.saucedemo.com/inventory.html");
+        await (0, test_1.expect)(page).toHaveURL(/.*\/inventory/);
+    });
+    (0, test_1.test)("Should confirm all prices are non-zero", async ({ page }) => {
+        //get a list of products
+        // Get a list of products
+        let productsElms = page.locator(".inventory_item");
+        await (0, test_1.expect)(productsElms).toHaveCount(6);
+        // Get product name and prices
+        let totalProducts = await productsElms.count();
+        let priceArr = [];
+        for (let i = 0; i < totalProducts; i++) {
+            let eleNode = productsElms.nth(i);
+            // Product name
+            let productName = await eleNode
+                .locator(".inventory_item_name")
+                .innerText();
+            // Price
+            let price = await eleNode.locator(".inventory_item_price").innerText();
+            // Print the results
+            console.log(`Product: ${productName}, price: ${price}`);
+            priceArr.push(price);
+        }
+        console.log(`Original Price Array: ${priceArr}`);
+        //$29.99,$9.99,$15.99,$49.99,$7.99,$15.99
+        //Aqui tenemos el problema de que el precio es un string y no un numero, por lo que hay que convertirlo a numero para poder compararlo
+        //1. Replace all $ with ""
+        //2. Compare the price which should be >0
+        let priceArrNum = priceArr.map((item) => parseFloat(item.replace("$", "")));
+        console.log(`Modified Price Array: ${priceArrNum}`); //29.99,9.99,15.99,49.99,7.99,15.99
+        let priceArrWithInvalidVals = priceArrNum.filter((item) => item <= 0);
+        if (priceArrWithInvalidVals.length > 0) {
+            console.log(`ERROR: Zero price values found ${priceArrWithInvalidVals}`);
+        }
+        else {
+            console.log(`INFO: All prices are non-zero`);
+        }
+        (0, test_1.expect)(priceArrWithInvalidVals).toHaveLength(0); // Assert that all prices are non-zero
+    });
+});

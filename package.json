@@ -4,9 +4,28 @@
   "description": "Playwright E2E Tests with AI Capabilities incl MCP",
   "main": "index.js",
   "scripts": {
+    "dev:make-apt": "npx playwright test --config=config/dev.playwright.config.ts tests/demo/functional/make.aptmnt.spec.ts --headed",
+    "test:api": "npx playwright test --config=config/test.playwright.config.ts tests/api/users.api.spec.ts",
+    "test:e2e": "npx playwright test --config=config/test.playwright.config.ts tests/e2e/nopcommerce.e2e.spec.ts --headed",
+    "test:make-apt": "npx playwright test --config=config/test.playwright.config.ts tests/demo/functional/make.aptmnt.spec.ts --headed",
+    "demo:parallel": "npx playwright test --grep @demo",
+    "ele-int": "npx playwright test tests/demo/ele.handling.make.aptmnt.spec.ts --headed",
+    "checkout": "npx playwright test tests/demo/functional/checkout.flow.spec.ts --headed",
+    "debug": "npx playwright test tests/demo/functional/debug.make.aptmnt.spec.ts --headed",
+    "debug:cli": "cross-env DEBUG=pw:api npx playwright test tests/demo/functional/debug.make.aptmnt.spec.ts",
+    "debug:trace": "npx playwright test tests/demo/functional/debug.make.aptmnt.spec.ts --trace on",
+    "debug:ui": "npx playwright test tests/demo/functional/debug.make.aptmnt.spec.ts --ui --headed",
+    "inventory": "npx playwright test tests/demo/functional/inventory.spec.ts --headed",
     "demo": "npx playwright test tests/demo/mytest.spec.ts --headed",
-    "login": "npx playwright test tests/demo/functional/login.spec.ts --headed",
-    "demo:firefox": "npx playwright test tests/demo/mytest.spec.ts --project=firefox --headed"
+    "multi:window": "npx playwright test tests/demo/functional/multi.window.spec.ts --headed",
+    "make-apt": "npx playwright test tests/demo/functional/make.aptmnt.spec.ts --headed",
+    "demo:tag": "npx playwright test --grep @smoke --headed",
+    "login": "npx playwright test tests/demo/login.spec.ts --headed",
+    "demo:params": "npx playwright test tests/demo/params.make.aptmnt.spec.ts",
+    "demo:global": "npx playwright test tests/demo/login.spec.ts",
+    "pw-adv-cap": "cross-env DEBUG=pw:api npx playwright test tests/demo/functional/pw.adv.cap.login.spec.ts --headed",
+    "demo:firefox": "npx playwright test tests/demo/mytest.spec.ts --project=firefox --headed",
+    "codegen:chromium": "ts-node-esm --transpile-only codegen-chromium.ts"
   },
   "keywords": [
     "playwright",
@@ -17,6 +36,13 @@
   "license": "ISC",
   "devDependencies": {
     "@playwright/test": "^1.61.1",
-    "@types/node": "^26.1.1"
+    "@types/node": "^26.5.0",
+    "allure-playwright": "^3.10.2",
+    "chalk": "^6.0.0",
+    "cross-env": "^10.1.0",
+    "csv-parse": "^7.0.2",
+    "dotenv": "^17.4.2",
+    "ts-node": "^10.9.2",
+    "typescript": "^7.0.2"
   }
 }

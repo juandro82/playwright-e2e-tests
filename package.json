@@ -7,7 +7,7 @@
     "dev:make-apt": "npx playwright test --config=config/dev.playwright.config.ts tests/demo/functional/make.aptmnt.spec.ts --headed",
     "test:api": "npx playwright test --config=config/test.playwright.config.ts tests/api/users.api.spec.ts",
     "test:e2e": "npx playwright test --config=config/test.playwright.config.ts tests/e2e/nopcommerce.e2e.spec.ts --headed",
-    "test:make-apt": "npx playwright test --config=config/test.playwright.config.ts tests/demo/functional/make.aptmnt.spec.ts --headed",
+    "test:make-apt": "npx playwright test --config=config/test.playwright.config.ts tests/demo/functional/make.aptmnt.spec.ts",
     "demo:parallel": "npx playwright test --grep @demo",
     "ele-int": "npx playwright test tests/demo/ele.handling.make.aptmnt.spec.ts --headed",
     "checkout": "npx playwright test tests/demo/functional/checkout.flow.spec.ts --headed",

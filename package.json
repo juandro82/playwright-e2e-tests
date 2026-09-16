@@ -35,7 +35,7 @@
   "author": "Cope Automation",
   "license": "ISC",
   "devDependencies": {
-    "@playwright/test": "^1.61.1",
+    "@playwright/test": "^1.63.0",
     "@types/node": "^26.5.0",
     "allure-playwright": "^3.10.2",
     "chalk": "^6.0.0",

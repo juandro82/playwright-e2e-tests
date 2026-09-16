@@ -21,7 +21,7 @@ pipeline {
         bat '''
           @echo off
           setlocal
-          set "PLAYWRIGHT_BROWSERS_PATH=%WORKSPACE%\playwright-browsers"
+          set "PLAYWRIGHT_BROWSERS_PATH=%WORKSPACE%\\playwright-browsers"
           npm ci
           npx playwright install chromium
           endlocal
@@ -34,7 +34,7 @@ pipeline {
         bat '''
           @echo off
           setlocal
-          set "PLAYWRIGHT_BROWSERS_PATH=%WORKSPACE%\playwright-browsers"
+          set "PLAYWRIGHT_BROWSERS_PATH=%WORKSPACE%\\playwright-browsers"
           set "TEST_USER_NAME=%TEST_CREDS_USR%"
           set "TEST_PASSWORD=%TEST_CREDS_PSW%"
           npm run test:make-apt
